@@ -18,7 +18,7 @@ export default function NavBar() {
           <Link
             href={link.to}
             key={link.label}
-            className="text-zinc-500 hover:text-zinc-900 transition-colors"
+            className="text-zinc-500 hover:text-zinc-900 transition-colors font-medium"
           >
             {link.label}
           </Link>
