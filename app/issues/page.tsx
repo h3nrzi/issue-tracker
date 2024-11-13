@@ -1,9 +1,12 @@
 import { Button } from "@radix-ui/themes";
+import Link from "next/link";
 
 export default function IssuesPage() {
   return (
     <>
-      <Button>Test Button</Button>
+      <Link href="/issues/new">
+        <Button>New Issue</Button>
+      </Link>
     </>
   );
 }

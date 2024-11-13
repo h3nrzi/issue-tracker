@@ -19,7 +19,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
       <body className={openSans.className}>
         <Theme>
           <NavBar />
-          <main>{children}</main>
+          <main className="p-5">{children}</main>
         </Theme>
       </body>
     </html>
