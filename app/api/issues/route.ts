@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { CreateIssueDto, createIssueSchema } from "./schema";
+import { createIssueSchema } from "@/schema/issue.schema";
 import prisma from "@/prisma/client";
+import { CreateIssueDto } from "@/dto/issue.dto";
 
 export async function POST(request: NextRequest) {
   const { title, description }: CreateIssueDto = await request.json();

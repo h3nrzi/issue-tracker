@@ -10,5 +10,3 @@ export const createIssueSchema = z.object({
     .min(1, "Description is required.")
     .max(200, "Description is too long."),
 });
-
-export type CreateIssueDto = z.infer<typeof createIssueSchema>;
