@@ -10,6 +10,7 @@ import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createIssueSchema } from "@/schema/issue.schema";
 import { CreateIssueDto } from "@/dto/issue.dto";
+import ErrorMessage from "@/components/error-message";
 
 interface ErrorForm {
   title?: string[];
@@ -43,17 +44,10 @@ export default function NewIssuePage() {
       <TextField.Root placeholder="Title" {...register("title")} />
 
       {formState.errors.title && (
-        <Callout.Root color="red">
-          <Callout.Text>{formState.errors.title.message}</Callout.Text>
-        </Callout.Root>
+        <ErrorMessage>{formState.errors.title.message!}</ErrorMessage>
       )}
 
-      {errors.title &&
-        errors.title.map((msg, i) => (
-          <Callout.Root key={i} color="red">
-            <Callout.Text>{msg}</Callout.Text>
-          </Callout.Root>
-        ))}
+      {errors.title && <ErrorMessage>{errors.title}</ErrorMessage>}
 
       <Controller
         name="description"
@@ -64,17 +58,10 @@ export default function NewIssuePage() {
       />
 
       {formState.errors.description && (
-        <Callout.Root color="red">
-          <Callout.Text>{formState.errors.description.message}</Callout.Text>
-        </Callout.Root>
+        <ErrorMessage>{formState.errors.description.message!}</ErrorMessage>
       )}
 
-      {errors.description &&
-        errors.description.map((msg, i) => (
-          <Callout.Root key={i} color="red">
-            <Callout.Text>{msg}</Callout.Text>
-          </Callout.Root>
-        ))}
+      {errors.description && <ErrorMessage>{errors.description}</ErrorMessage>}
 
       <Button>Submit New Issue</Button>
     </form>
