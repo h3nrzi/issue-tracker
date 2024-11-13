@@ -26,7 +26,7 @@ export default function NewIssuePage() {
   const [errors, setErrors] = useState<ErrorForm>({} as ErrorForm);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  async function handleCreateIssue(data: CreateIssueDto) {
+  const handleCreateIssue = handleSubmit(async (data) => {
     try {
       setIsSubmitting(true);
       await axios.post("/api/issues", data);
@@ -36,13 +36,10 @@ export default function NewIssuePage() {
     } finally {
       setIsSubmitting(false);
     }
-  }
+  });
 
   return (
-    <form
-      className="max-w-xl space-y-3"
-      onSubmit={handleSubmit(handleCreateIssue)}
-    >
+    <form className="max-w-xl space-y-3" onSubmit={handleCreateIssue}>
       <TextField.Root placeholder="Title" {...register("title")} />
 
       {formState.errors.title && (
