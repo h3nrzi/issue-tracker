@@ -1,5 +1,11 @@
-import { Spinner } from "@radix-ui/themes";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 export default function LoadingNewIssuePage() {
-  return <Spinner size="3" />;
+  return (
+    <div className="max-w-xl">
+      <Skeleton height="2rem" />
+      <Skeleton height="20rem" />
+    </div>
+  );
 }
