@@ -24,7 +24,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
       <body className={openSans.variable}>
         <Theme accentColor="violet" appearance="light">
           <NavBar />
-          <main className="p-5">{children}</main>
+          <main className="container m-auto p-5">{children}</main>
         </Theme>
       </body>
     </html>

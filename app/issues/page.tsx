@@ -1,17 +1,14 @@
 import { Table } from "@radix-ui/themes";
 import prisma from "@/prisma/client";
-import IssueStatusBadge from "@/components/issue-status-badge";
-import IssueToolbar from "@/app/issues/issue.toolbar";
-import CustomLink from "@/components/custom-link";
-import { Issue } from "@prisma/client";
+import { CustomLink, IssueStatusBadge } from "@/components";
+import IssueToolbar from "./issue.toolbar";
 
 export default async function IssuesPage() {
-  const issues: Issue[] = await prisma.issue.findMany();
+  const issues = await prisma.issue.findMany();
 
   return (
     <>
       <IssueToolbar />
-
       <Table.Root variant="surface">
         <Table.Header>
           <Table.Row>
@@ -25,20 +22,20 @@ export default async function IssuesPage() {
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {issues.map((issue: Issue) => (
+          {issues.map((issue) => (
             <Table.Row key={issue.id}>
-              <Table.Cell>
+              <Table.Cell className="relative">
                 <CustomLink href={`/issues/${issue.id}`}>
                   {issue.title}
                 </CustomLink>
-                <div className="block md:hidden">
+                <span className="md:hidden absolute bottom-1 right-1">
                   {<IssueStatusBadge status={issue.status} />}
-                </div>
+                </span>
               </Table.Cell>
               <Table.Cell className="hidden md:table-cell">
                 <IssueStatusBadge status={issue.status} />
               </Table.Cell>
-              <Table.Cell className="hidden md:table-cell">
+              <Table.Cell className="hidden md:table-cell whitespace-nowrap">
                 {issue.createdAt.toDateString()}
               </Table.Cell>
             </Table.Row>

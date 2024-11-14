@@ -1,16 +1,16 @@
 "use client";
 
-import { Button, Spinner, TextField } from "@radix-ui/themes";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import SimpleMDE from "react-simplemde-editor";
-import "easymde/dist/easymde.min.css";
 import { Controller, useForm } from "react-hook-form";
 import axios from "axios";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { Button, Spinner, TextField } from "@radix-ui/themes";
+import "easymde/dist/easymde.min.css";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createIssueSchema } from "@/schema/issue.schema";
 import { CreateIssueDto } from "@/dto/issue.dto";
-import ErrorMessage from "@/components/error-message";
+import { ErrorMessage } from "@/components";
 
 interface ErrorForm {
   title?: string[];
