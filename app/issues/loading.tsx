@@ -1,5 +1,5 @@
 import { Table } from "@radix-ui/themes";
-import IssueToolbar from "@/app/issues/issue.toolbar";
+import IssueToolbar from "./issues-toolbar";
 import { Skeleton } from "@/components";
 
 export default function LoadingIssuesPage() {
