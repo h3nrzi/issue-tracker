@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { UpdateIssueDto } from "@/dto/issue.dto";
 import { updateIssueSchema } from "@/schema/issue.schema";
 import prisma from "@/prisma/client";
+import { revalidatePath } from "next/cache";
 
 export async function PATCH(
   request: NextRequest,
@@ -34,6 +35,8 @@ export async function PATCH(
     where: { id: +params.id },
     data: { title, description },
   });
+
+  revalidatePath("/issues", "page");
 
   return NextResponse.json(updatedIssue, { status: 200 });
 }

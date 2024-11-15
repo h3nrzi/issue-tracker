@@ -45,6 +45,7 @@ export default function IssueForm({ issue }: { issue?: Issue }) {
       else await axios.post("/api/issues", data);
 
       router.push("/issues");
+      router.refresh();
     } catch (err) {
       if (err instanceof AxiosError) setErrors(err.response?.data.errors);
     } finally {
