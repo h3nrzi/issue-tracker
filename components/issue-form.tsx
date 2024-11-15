@@ -20,6 +20,7 @@ interface IssueFormData {
 interface IssueFormError {
   title?: string[];
   description?: string[];
+  other?: string;
 }
 
 export default function IssueForm({ issue }: { issue?: Issue }) {

@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
 
   if (!validatedFields.success)
     return NextResponse.json(
-      { status: "fail", errors: validatedFields.error.flatten().fieldErrors },
+      { errors: validatedFields.error.flatten().fieldErrors },
       { status: 400 },
     );
 
