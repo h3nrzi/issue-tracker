@@ -3,7 +3,6 @@
 import { Button, Spinner, TextField } from "@radix-ui/themes";
 import { ErrorMessage } from "@/components/index";
 import { Controller, useForm } from "react-hook-form";
-import SimpleMDE from "react-simplemde-editor";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createIssueSchema } from "@/schema/issue.schema";
 import { useRouter } from "next/navigation";
@@ -11,6 +10,11 @@ import { useState } from "react";
 import axios, { AxiosError } from "axios";
 import { Issue } from "@prisma/client";
 import "easymde/dist/easymde.min.css";
+import dynamic from "next/dynamic";
+
+const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
+  ssr: false,
+});
 
 interface IssueFormData {
   title: string;
