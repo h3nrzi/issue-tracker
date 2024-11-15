@@ -8,7 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { createIssueSchema } from "@/schema/issue.schema";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { Issue } from "@prisma/client";
 import "easymde/dist/easymde.min.css";
 
@@ -36,10 +36,13 @@ export default function IssueForm({ issue }: { issue?: Issue }) {
   async function submitHandler(data: IssueFormData) {
     try {
       setIsSubmitting(true);
-      await axios.post("/api/issues", data);
+
+      if (issue) await axios.patch(`/api/issues/${issue.id}`, data);
+      else await axios.post("/api/issues", data);
+
       router.push("/issues");
-    } catch (err: any) {
-      setErrors(err.response.data.errors);
+    } catch (err) {
+      if (err instanceof AxiosError) setErrors(err.response?.data.errors);
     } finally {
       setIsSubmitting(false);
     }
@@ -47,16 +50,16 @@ export default function IssueForm({ issue }: { issue?: Issue }) {
 
   return (
     <form className="max-w-xl space-y-3" onSubmit={handleSubmit(submitHandler)}>
+      {errors?.other && <ErrorMessage>{errors?.other}</ErrorMessage>}
+
       <TextField.Root
         placeholder="Title"
         defaultValue={issue?.title}
         {...register("title")}
       />
-
       {formState.errors.title && (
         <ErrorMessage>{formState.errors.title.message!}</ErrorMessage>
       )}
-
       {errors?.title && <ErrorMessage>{errors.title}</ErrorMessage>}
 
       <Controller
@@ -67,16 +70,14 @@ export default function IssueForm({ issue }: { issue?: Issue }) {
           <SimpleMDE placeholder="Description" {...field} className="p-0" />
         )}
       />
-
       {formState.errors.description && (
         <ErrorMessage>{formState.errors.description.message!}</ErrorMessage>
       )}
-
       {errors?.description && <ErrorMessage>{errors.description}</ErrorMessage>}
 
       <Button disabled={isSubmitting}>
         {isSubmitting && <Spinner size="2" />}
-        Submit New Issue
+        {issue ? "Update Issue" : "Submit New Issue"}
       </Button>
     </form>
   );
