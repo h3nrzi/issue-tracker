@@ -10,11 +10,7 @@ import { useState } from "react";
 import axios, { AxiosError } from "axios";
 import { Issue } from "@prisma/client";
 import "easymde/dist/easymde.min.css";
-import dynamic from "next/dynamic";
-
-const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
-  ssr: false,
-});
+import SimpleMDE from "react-simplemde-editor";
 
 interface IssueFormData {
   title: string;
