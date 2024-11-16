@@ -1,12 +1,31 @@
 "use client";
 
 import Link from "next/link";
-import { AlertDialog, Button } from "@radix-ui/themes";
+import { AlertDialog, Button, Spinner } from "@radix-ui/themes";
 import { Pencil2Icon, TrashIcon } from "@radix-ui/react-icons";
 import { IoIosCheckmarkCircle } from "react-icons/io";
 import { MdCancel } from "react-icons/md";
+import axios, { AxiosError } from "axios";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function IssueToolbar({ issueId }: { issueId: number }) {
+  const router = useRouter();
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  async function handleDeleteIssue(id: number) {
+    setIsDeleting(true);
+    try {
+      await axios.delete(`/api/issues/${id}`);
+      router.push("/issues");
+      router.refresh();
+    } catch (err) {
+      if (err instanceof AxiosError) console.log(err.message);
+    } finally {
+      setIsDeleting(false);
+    }
+  }
+
   return (
     <div className="flex flex-col gap-2">
       <Link href={`/issues/${issueId}/edit`}>
@@ -19,8 +38,14 @@ export default function IssueToolbar({ issueId }: { issueId: number }) {
       <AlertDialog.Root>
         <AlertDialog.Trigger>
           <Button color="red" style={{ cursor: "pointer" }}>
-            <TrashIcon />
-            Delete
+            {isDeleting ? (
+              <Spinner />
+            ) : (
+              <>
+                <TrashIcon />
+                Delete
+              </>
+            )}
           </Button>
         </AlertDialog.Trigger>
         <AlertDialog.Content>
@@ -37,7 +62,10 @@ export default function IssueToolbar({ issueId }: { issueId: number }) {
               </Button>
             </AlertDialog.Cancel>
             <AlertDialog.Action>
-              <Button style={{ cursor: "pointer" }}>
+              <Button
+                style={{ cursor: "pointer" }}
+                onClick={() => handleDeleteIssue(issueId)}
+              >
                 <IoIosCheckmarkCircle />
                 Delete Issue
               </Button>

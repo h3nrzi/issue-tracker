@@ -8,7 +8,11 @@ export default async function IssuesPage() {
   return (
     <>
       <IssuesToolbar />
-      <IssuesTable issues={issues} />
+      {issues.length > 0 ? (
+        <IssuesTable issues={issues} />
+      ) : (
+        <p>No issue found! Please create an issue...</p>
+      )}
     </>
   );
 }
