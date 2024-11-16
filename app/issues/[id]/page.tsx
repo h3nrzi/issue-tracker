@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
-import IssueEditButton from "@/app/issues/[id]/issue-edit-button";
 import IssueDetails from "@/app/issues/[id]/issue-details";
 import getIssue from "@/lib/getIssue";
+import IssueToolbar from "@/app/issues/[id]/issue-toolbar";
 
 interface Props {
   params: { id: string };
@@ -12,10 +12,12 @@ export default async function IssueDetailPage({ params }: Props) {
   if (!issue) return notFound();
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-      <IssueDetails issue={issue} />
-      <div>
-        <IssueEditButton issueId={issue.id} />
+    <div className="grid grid-cols-1 sm:grid-cols-5 gap-10 sm:gap-4">
+      <div className="sm:col-span-3">
+        <IssueDetails issue={issue} />
+      </div>
+      <div className="sm:col-span-2">
+        <IssueToolbar issueId={issue.id} />
       </div>
     </div>
   );
