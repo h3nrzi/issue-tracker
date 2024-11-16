@@ -13,10 +13,10 @@ export default async function IssueDetailPage({ params }: Props) {
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-5 gap-10 sm:gap-4">
-      <div className="sm:col-span-3">
+      <div className="sm:col-span-4">
         <IssueDetails issue={issue} />
       </div>
-      <div className="sm:col-span-2">
+      <div className="sm:col-span-1">
         <IssueToolbar issueId={issue.id} />
       </div>
     </div>
