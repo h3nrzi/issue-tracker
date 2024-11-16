@@ -6,7 +6,7 @@ export default function IssuesToolbar() {
   return (
     <div className="mb-5">
       <Link href="/issues/new">
-        <Button style={{ cursor: "pointer" }} variant="soft">
+        <Button style={{ cursor: "pointer" }} variant="outline">
           <AiFillBug />
           New Issue
         </Button>
