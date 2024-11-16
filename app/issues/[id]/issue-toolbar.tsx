@@ -5,13 +5,14 @@ import { AlertDialog, Button, Spinner } from "@radix-ui/themes";
 import { Pencil2Icon, TrashIcon } from "@radix-ui/react-icons";
 import { IoIosCheckmarkCircle } from "react-icons/io";
 import { MdCancel } from "react-icons/md";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function IssueToolbar({ issueId }: { issueId: number }) {
   const router = useRouter();
   const [isDeleting, setIsDeleting] = useState(false);
+  const [errors, setErrors] = useState({} as any);
 
   async function handleDeleteIssue(id: number) {
     setIsDeleting(true);
@@ -19,6 +20,8 @@ export default function IssueToolbar({ issueId }: { issueId: number }) {
       await axios.delete(`/api/issues/${id}`);
       router.push("/issues");
       router.refresh();
+    } catch (error) {
+      if (error instanceof AxiosError) setErrors(error?.response?.data.errors);
     } finally {
       setIsDeleting(false);
     }
@@ -69,6 +72,22 @@ export default function IssueToolbar({ issueId }: { issueId: number }) {
               </Button>
             </AlertDialog.Action>
           </div>
+        </AlertDialog.Content>
+      </AlertDialog.Root>
+
+      <AlertDialog.Root open={errors?.other}>
+        <AlertDialog.Content>
+          <AlertDialog.Title>Error</AlertDialog.Title>
+          <AlertDialog.Description>{errors.other}</AlertDialog.Description>
+          <AlertDialog.Cancel>
+            <Button
+              color="gray"
+              variant="soft"
+              style={{ cursor: "pointer", marginTop: "2rem" }}
+            >
+              Ok
+            </Button>
+          </AlertDialog.Cancel>
         </AlertDialog.Content>
       </AlertDialog.Root>
     </div>
