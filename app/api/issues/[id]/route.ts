@@ -36,7 +36,7 @@ export async function PATCH(
     data: { title, description },
   });
 
-  revalidatePath("/issues", "page");
+  revalidatePath("/issues");
 
   return NextResponse.json(updatedIssue, { status: 200 });
 }
@@ -45,7 +45,6 @@ export async function DELETE(
   request: NextRequest,
   { params }: { params: { id: string } },
 ) {
-  console.log(params.id);
   const issue = await prisma.issue.findUnique({
     where: { id: +params.id },
   });
@@ -59,6 +58,8 @@ export async function DELETE(
   await prisma.issue.delete({
     where: { id: +params.id },
   });
+
+  revalidatePath("/issues");
 
   return NextResponse.json({});
 }

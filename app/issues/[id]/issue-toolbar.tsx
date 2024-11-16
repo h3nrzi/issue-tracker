@@ -5,7 +5,7 @@ import { AlertDialog, Button, Spinner } from "@radix-ui/themes";
 import { Pencil2Icon, TrashIcon } from "@radix-ui/react-icons";
 import { IoIosCheckmarkCircle } from "react-icons/io";
 import { MdCancel } from "react-icons/md";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -19,8 +19,6 @@ export default function IssueToolbar({ issueId }: { issueId: number }) {
       await axios.delete(`/api/issues/${id}`);
       router.push("/issues");
       router.refresh();
-    } catch (err) {
-      if (err instanceof AxiosError) console.log(err.message);
     } finally {
       setIsDeleting(false);
     }

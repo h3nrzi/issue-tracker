@@ -1,5 +1,3 @@
-"use client";
-
 import "easymde/dist/easymde.min.css";
 import dynamic from "next/dynamic";
 import { IssueFormSkeleton } from "@/components";
