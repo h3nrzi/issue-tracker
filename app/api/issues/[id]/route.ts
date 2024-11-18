@@ -3,6 +3,7 @@ import { UpdateIssueDto } from "@/dto/issue.dto";
 import { updateIssueSchema } from "@/schema/issue.schema";
 import prisma from "@/prisma/client";
 import { revalidatePath } from "next/cache";
+import delay from "delay";
 
 export async function PATCH(
   request: NextRequest,

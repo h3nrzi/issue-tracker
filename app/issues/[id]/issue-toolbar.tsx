@@ -38,15 +38,14 @@ export default function IssueToolbar({ issueId }: { issueId: number }) {
 
       <AlertDialog.Root>
         <AlertDialog.Trigger>
-          <Button color="red" style={{ cursor: "pointer" }}>
-            {isDeleting ? (
-              <Spinner />
-            ) : (
-              <>
-                <TrashIcon />
-                Delete
-              </>
-            )}
+          <Button
+            color="red"
+            style={{ cursor: "pointer" }}
+            disabled={isDeleting}
+          >
+            {isDeleting && <Spinner />}
+            <TrashIcon />
+            Delete
           </Button>
         </AlertDialog.Trigger>
         <AlertDialog.Content>
@@ -78,7 +77,7 @@ export default function IssueToolbar({ issueId }: { issueId: number }) {
       <AlertDialog.Root open={errors?.other}>
         <AlertDialog.Content>
           <AlertDialog.Title>Error</AlertDialog.Title>
-          <AlertDialog.Description>{errors.other}</AlertDialog.Description>
+          <AlertDialog.Description>{errors?.other}</AlertDialog.Description>
           <AlertDialog.Cancel>
             <Button
               color="gray"
