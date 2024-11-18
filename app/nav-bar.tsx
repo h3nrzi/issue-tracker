@@ -16,27 +16,28 @@ export default function NavBar() {
   ];
 
   return (
-    <nav className="flex space-x-6 border-b mb-5 px-5 h-14 items-center">
-      <Link href="/">
-        <AiFillBug />
-      </Link>
-
-      <ul className="flex space-x-6">
-        {links.map((link) => (
-          <li key={link.label}>
-            <Link
-              href={link.to}
-              className={classNames({
-                "text-zinc-900": path === link.to,
-                "text-zinc-500": !(path === link.to),
-                "hover:text-zinc-800 transition-colors font-medium": true,
-              })}
-            >
-              {link.label}
-            </Link>
-          </li>
-        ))}
-      </ul>
+    <nav className="flex items-center justify-between border-b mb-5 px-5 h-14 ">
+      <div className="flex gap-6 items-center">
+        <Link href="/">
+          <AiFillBug />
+        </Link>
+        <ul className="flex space-x-6">
+          {links.map((link) => (
+            <li key={link.label}>
+              <Link
+                href={link.to}
+                className={classNames({
+                  "text-zinc-900": path === link.to,
+                  "text-zinc-500": !(path === link.to),
+                  "hover:text-zinc-800 transition-colors font-medium": true,
+                })}
+              >
+                {link.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
 
       <div>
         {status === "authenticated" ? (
