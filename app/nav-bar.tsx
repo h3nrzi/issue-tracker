@@ -8,11 +8,13 @@ import { Avatar, DropdownMenu, Spinner, Text } from "@radix-ui/themes";
 import { useSession } from "next-auth/react";
 
 export default function NavBar() {
+  const path = usePathname();
+
   return (
     <nav className="flex items-center justify-between border-b mb-5 px-5 h-14 ">
       <div className="flex gap-6 items-center">
         <NavLogo />
-        <NavLinks />
+        <NavLinks path={path} />
       </div>
       <div>
         <AuthStatus />
@@ -29,12 +31,10 @@ function NavLogo() {
   );
 }
 
-function NavLinks() {
-  const path = usePathname();
-
+function NavLinks({ path }: { path: string }) {
   const links = [
-    { label: "Dashboard", to: "/" },
-    { label: "Issues", to: "/issues/list" },
+    { label: "Dashboard", href: "/" },
+    { label: "Issues", href: "/issues/list" },
   ];
 
   return (
@@ -42,11 +42,10 @@ function NavLinks() {
       {links.map((link) => (
         <li key={link.label}>
           <Link
-            href={link.to}
+            href={link.href}
             className={classNames({
-              "text-zinc-900": path === link.to,
-              "text-zinc-500": !(path === link.to),
-              "hover:text-zinc-800 transition-colors font-medium": true,
+              "my-nav-link": true,
+              "!text-zinc-900": path === link.href,
             })}
           >
             {link.label}
@@ -87,5 +86,9 @@ function AuthStatus() {
       </DropdownMenu.Root>
     );
 
-  return <Link href="/api/auth/signin">Sign in</Link>;
+  return (
+    <Link className="my-nav-link" href="/api/auth/signin">
+      Sign in
+    </Link>
+  );
 }
