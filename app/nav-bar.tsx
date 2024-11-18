@@ -10,7 +10,7 @@ export default function NavBar() {
 
   const links = [
     { label: "Dashboard", to: "/" },
-    { label: "Issues", to: "/issues" },
+    { label: "Issues", to: "/issues/list" },
   ];
 
   return (

@@ -18,7 +18,7 @@ export default function IssueToolbar({ issueId }: { issueId: number }) {
     setIsDeleting(true);
     try {
       await axios.delete(`/api/issues/${id}`);
-      router.push("/issues");
+      router.push("/issues/list");
       router.refresh();
     } catch (error) {
       if (error instanceof AxiosError) setErrors(error?.response?.data.errors);
@@ -29,7 +29,7 @@ export default function IssueToolbar({ issueId }: { issueId: number }) {
 
   return (
     <div className="flex flex-col gap-2">
-      <Link href={`/issues/${issueId}/edit`}>
+      <Link href={`/issues/edit/${issueId}`}>
         <Button color="blue" style={{ width: "100%", cursor: "pointer" }}>
           <Pencil2Icon />
           Edit
