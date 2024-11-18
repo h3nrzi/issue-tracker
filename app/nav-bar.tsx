@@ -5,6 +5,7 @@ import { AiFillBug } from "react-icons/ai";
 import { usePathname } from "next/navigation";
 import classNames from "classnames";
 import { useSession } from "next-auth/react";
+import { Avatar, DropdownMenu, Text } from "@radix-ui/themes";
 
 export default function NavBar() {
   const path = usePathname();
@@ -41,7 +42,24 @@ export default function NavBar() {
 
       <div>
         {status === "authenticated" ? (
-          <Link href="/api/auth/signout">Log out</Link>
+          <DropdownMenu.Root>
+            <DropdownMenu.Trigger>
+              <Avatar
+                className="cursor-pointer"
+                src={session.user!.image!}
+                fallback={session.user!.name!.at(0)!}
+                radius="full"
+              />
+            </DropdownMenu.Trigger>
+            <DropdownMenu.Content>
+              <DropdownMenu.Label>
+                <Text size="2">{session.user!.email}</Text>
+              </DropdownMenu.Label>
+              <DropdownMenu.Item>
+                <Link href="/api/auth/signout">Log out</Link>
+              </DropdownMenu.Item>
+            </DropdownMenu.Content>
+          </DropdownMenu.Root>
         ) : (
           <Link href="/api/auth/signin">Sign in</Link>
         )}
