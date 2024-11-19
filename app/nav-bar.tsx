@@ -65,22 +65,22 @@ function AuthStatus() {
     return (
       <DropdownMenu.Root>
         <DropdownMenu.Trigger>
-          <Avatar
-            className="cursor-pointer"
-            src={session!.user!.image!}
-            fallback={session.user!.name!.at(0)!}
-            radius="full"
-            referrerPolicy="no-referrer"
-          />
+          <div>
+            <Avatar
+              className="cursor-pointer"
+              src={session!.user!.image!}
+              fallback={session.user!.name!.at(0)!}
+              radius="full"
+              referrerPolicy="no-referrer"
+            />
+          </div>
         </DropdownMenu.Trigger>
         <DropdownMenu.Content>
           <DropdownMenu.Label>
             <Text size="2">{session.user!.email}</Text>
           </DropdownMenu.Label>
           <Link href="/api/auth/signout">
-            <DropdownMenu.Item style={{ cursor: "pointer" }}>
-              Log out
-            </DropdownMenu.Item>
+            <DropdownMenu.Item style={{ cursor: "pointer" }}>Log out</DropdownMenu.Item>
           </Link>
         </DropdownMenu.Content>
       </DropdownMenu.Root>
