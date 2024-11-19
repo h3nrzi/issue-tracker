@@ -3,8 +3,19 @@ import { createIssueSchema } from "@/schema/issue.schema";
 import prisma from "@/prisma/client";
 import { CreateIssueDto } from "@/dto/issue.dto";
 import { revalidatePath } from "next/cache";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/auth";
 
 export async function POST(request: NextRequest) {
+  const session = await getServerSession(authOptions);
+
+  if (!session?.user) {
+    return NextResponse.json(
+      { errors: { server: "Unauthorized" } },
+      { status: 401 },
+    );
+  }
+
   const { title, description }: CreateIssueDto = await request.json();
 
   const validatedFields = await createIssueSchema.safeParseAsync({

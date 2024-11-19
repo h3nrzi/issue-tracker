@@ -3,12 +3,22 @@ import { UpdateIssueDto } from "@/dto/issue.dto";
 import { updateIssueSchema } from "@/schema/issue.schema";
 import prisma from "@/prisma/client";
 import { revalidatePath } from "next/cache";
-import delay from "delay";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/auth";
 
 export async function PATCH(
   request: NextRequest,
   { params }: { params: { id: string } },
 ) {
+  const session = await getServerSession(authOptions);
+
+  if (!session?.user) {
+    return NextResponse.json(
+      { errors: { server: "Unauthorized" } },
+      { status: 401 },
+    );
+  }
+
   const { title, description } = (await request.json()) as UpdateIssueDto;
 
   const validatedFields = await updateIssueSchema.safeParseAsync({
@@ -46,6 +56,15 @@ export async function DELETE(
   request: NextRequest,
   { params }: { params: { id: string } },
 ) {
+  const session = await getServerSession(authOptions);
+
+  if (!session?.user) {
+    return NextResponse.json(
+      { errors: { server: "Unauthorized" } },
+      { status: 401 },
+    );
+  }
+
   const issue = await prisma.issue.findUnique({
     where: { id: +params.id },
   });
