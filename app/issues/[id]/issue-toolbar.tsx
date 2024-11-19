@@ -7,7 +7,8 @@ import { IoIosCheckmarkCircle } from "react-icons/io";
 import { MdCancel } from "react-icons/md";
 import axios, { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { User } from "@prisma/client";
 
 export default function IssueToolbar({ issueId }: { issueId: number }) {
   return (
@@ -101,13 +102,27 @@ function DeleteButton({ issueId }: { issueId: number }) {
 }
 
 function AssigneeSelect() {
+  const [users, setUsers] = useState<User[]>([]);
+
+  useEffect(() => {
+    async function fetchUsers() {
+      const res = await axios.get<User[]>("/api/users");
+      setUsers(res.data);
+    }
+    fetchUsers();
+  }, []);
+
   return (
     <Select.Root>
       <Select.Trigger placeholder="Assign..." />
-      <Select.Content>
+      <Select.Content position="popper">
         <Select.Group>
           <Select.Label>Suggestions</Select.Label>
-          <Select.Item value="1">Hossein Rezaei</Select.Item>
+          {users.map((user) => (
+            <Select.Item key={user.id} value={user.id}>
+              {user.name}
+            </Select.Item>
+          ))}
         </Select.Group>
       </Select.Content>
     </Select.Root>
