@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { AlertDialog, Button, Spinner } from "@radix-ui/themes";
+import { AlertDialog, Button, Select, Spinner } from "@radix-ui/themes";
 import { Pencil2Icon, TrashIcon } from "@radix-ui/react-icons";
 import { IoIosCheckmarkCircle } from "react-icons/io";
 import { MdCancel } from "react-icons/md";
@@ -12,6 +12,7 @@ import { useState } from "react";
 export default function IssueToolbar({ issueId }: { issueId: number }) {
   return (
     <div className="flex flex-col gap-2">
+      <AssigneeSelect />
       <EditButton issueId={issueId} />
       <DeleteButton issueId={issueId} />
     </div>
@@ -59,8 +60,7 @@ function DeleteButton({ issueId }: { issueId: number }) {
       <AlertDialog.Content>
         <AlertDialog.Title>Confirm Deleting</AlertDialog.Title>
         <AlertDialog.Description>
-          Are you sure you want to delete this issue? This action cannot be
-          undone.
+          Are you sure you want to delete this issue? This action cannot be undone.
         </AlertDialog.Description>
         <div className="flex gap-3 mt-4">
           <AlertDialog.Cancel>
@@ -97,5 +97,19 @@ function DeleteButton({ issueId }: { issueId: number }) {
         </AlertDialog.Content>
       </AlertDialog.Root>
     </AlertDialog.Root>
+  );
+}
+
+function AssigneeSelect() {
+  return (
+    <Select.Root>
+      <Select.Trigger placeholder="Assign..." />
+      <Select.Content>
+        <Select.Group>
+          <Select.Label>Suggestions</Select.Label>
+          <Select.Item value="1">Hossein Rezaei</Select.Item>
+        </Select.Group>
+      </Select.Content>
+    </Select.Root>
   );
 }
