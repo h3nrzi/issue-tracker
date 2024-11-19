@@ -29,14 +29,14 @@ export default function IssueForm({ issue }: { issue?: Issue }) {
   const [errors, setErrors] = useState<IssueFormError | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const { register, control, handleSubmit, formState } = useForm<IssueFormData>(
-    { resolver: zodResolver(createIssueSchema) },
-  );
+  const { register, control, handleSubmit, formState } = useForm<IssueFormData>({
+    resolver: zodResolver(createIssueSchema),
+  });
 
   async function submitHandler(data: IssueFormData) {
-    try {
-      setIsSubmitting(true);
+    setIsSubmitting(true);
 
+    try {
       if (issue) await axios.patch(`/api/issues/${issue.id}`, data);
       else await axios.post("/api/issues", data);
 

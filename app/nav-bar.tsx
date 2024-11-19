@@ -17,7 +17,7 @@ export default function NavBar() {
         <NavLinks path={path} />
       </div>
       <div>
-        <AuthStatus />
+        <AuthStatus path={path} />
       </div>
     </nav>
   );
@@ -56,7 +56,7 @@ function NavLinks({ path }: { path: string }) {
   );
 }
 
-function AuthStatus() {
+function AuthStatus({ path }: { path: string }) {
   const { status, data: session } = useSession();
 
   if (status === "loading") return <Spinner size="3" className="mr-2" />;
@@ -87,8 +87,16 @@ function AuthStatus() {
     );
 
   return (
-    <Link className="my-nav-link" href="/api/auth/signin">
-      Sign in
-    </Link>
+    <div className="flex gap-5">
+      <Link className="my-nav-link" href="/api/auth/signin">
+        Sign in
+      </Link>
+      <Link
+        className={`my-nav-link ${path == "/signup" ? "!text-zinc-900" : ""}`}
+        href="/signup"
+      >
+        Sign Up
+      </Link>
+    </div>
   );
 }
