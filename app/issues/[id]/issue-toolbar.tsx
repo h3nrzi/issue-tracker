@@ -11,6 +11,7 @@ import { useState } from "react";
 import { Issue } from "@prisma/client";
 import Skeleton from "react-loading-skeleton";
 import useUsers from "@/lib/hooks/useUsers";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function IssueToolbar({ issue }: { issue: Issue }) {
   return (
@@ -18,6 +19,7 @@ export default function IssueToolbar({ issue }: { issue: Issue }) {
       <AssigneeSelect issue={issue} />
       <EditButton issueId={issue.id} />
       <DeleteButton issueId={issue.id} />
+      <Toaster />
     </div>
   );
 }
@@ -106,10 +108,15 @@ function DeleteButton({ issueId }: { issueId: number }) {
 function AssigneeSelect({ issue }: { issue: Issue }) {
   const { data, error, isLoading } = useUsers();
 
-  function handleAssignIssue(userId: string) {
-    axios.patch(`/api/issues/${issue.id}`, {
-      userId: userId == "unassigned" ? null : userId,
-    });
+  async function handleAssignIssue(userId: string) {
+    try {
+      await axios.patch(`/api/issues/${issue.id}`, {
+        userId: userId == "unassigned" ? null : userId,
+      });
+      toast.success("Saved!");
+    } catch {
+      toast.error("Changes could not be saved!");
+    }
   }
 
   if (isLoading) return <Skeleton height="2rem" />;
