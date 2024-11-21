@@ -7,8 +7,10 @@ import { IoIosCheckmarkCircle } from "react-icons/io";
 import { MdCancel } from "react-icons/md";
 import axios, { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { User } from "@prisma/client";
+import { useQuery } from "@tanstack/react-query";
+import Skeleton from "react-loading-skeleton";
 
 export default function IssueToolbar({ issueId }: { issueId: number }) {
   return (
@@ -102,15 +104,19 @@ function DeleteButton({ issueId }: { issueId: number }) {
 }
 
 function AssigneeSelect() {
-  const [users, setUsers] = useState<User[]>([]);
-
-  useEffect(() => {
-    async function fetchUsers() {
+  const { data, error, isLoading } = useQuery<User[]>({
+    queryKey: ["users"],
+    async queryFn() {
       const res = await axios.get<User[]>("/api/users");
-      setUsers(res.data);
-    }
-    fetchUsers();
-  }, []);
+      return res.data;
+    },
+    staleTime: 60 * 1000, // 60s
+    retry: 3,
+  });
+
+  if (isLoading) return <Skeleton height="2rem" />;
+
+  if (error) return null;
 
   return (
     <Select.Root>
@@ -118,7 +124,7 @@ function AssigneeSelect() {
       <Select.Content position="popper">
         <Select.Group>
           <Select.Label>Suggestions</Select.Label>
-          {users.map((user) => (
+          {data?.map((user) => (
             <Select.Item key={user.id} value={user.id}>
               {user.name}
             </Select.Item>
