@@ -7,6 +7,7 @@ import { Open_Sans } from "next/font/google";
 import { Theme } from "@radix-ui/themes";
 import NavBar from "@/app/nav-bar";
 import AuthProvider from "@/app/auth-provider";
+import QueryClientProvider from "./query-client-provider";
 
 const openSans = Open_Sans({
   subsets: ["latin"],
@@ -23,12 +24,14 @@ export default function RootLayout({ children }: PropsWithChildren) {
   return (
     <html lang="en">
       <body className={openSans.variable}>
-        <AuthProvider>
-          <Theme accentColor="violet" appearance="light">
-            <NavBar />
-            <main className="container m-auto p-5">{children}</main>
-          </Theme>
-        </AuthProvider>
+        <QueryClientProvider>
+          <AuthProvider>
+            <Theme accentColor="violet" appearance="light">
+              <NavBar />
+              <main className="container m-auto p-5">{children}</main>
+            </Theme>
+          </AuthProvider>
+        </QueryClientProvider>
       </body>
     </html>
   );
