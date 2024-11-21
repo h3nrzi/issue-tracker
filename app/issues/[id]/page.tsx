@@ -21,7 +21,7 @@ export default async function IssueDetailPage({ params }: Props) {
         <IssueDetails issue={issue} />
       </div>
       <div className="sm:col-span-1">
-        {session?.user && <IssueToolbar issueId={issue.id} />}
+        {session?.user && <IssueToolbar issue={issue} />}
       </div>
     </div>
   );

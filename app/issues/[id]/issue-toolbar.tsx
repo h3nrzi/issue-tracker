@@ -8,16 +8,16 @@ import { MdCancel } from "react-icons/md";
 import axios, { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { User } from "@prisma/client";
+import { Issue, User } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
 import Skeleton from "react-loading-skeleton";
 
-export default function IssueToolbar({ issueId }: { issueId: number }) {
+export default function IssueToolbar({ issue }: { issue: Issue }) {
   return (
     <div className="flex flex-col gap-2">
-      <AssigneeSelect />
-      <EditButton issueId={issueId} />
-      <DeleteButton issueId={issueId} />
+      <AssigneeSelect issue={issue} />
+      <EditButton issueId={issue.id} />
+      <DeleteButton issueId={issue.id} />
     </div>
   );
 }
@@ -103,7 +103,7 @@ function DeleteButton({ issueId }: { issueId: number }) {
   );
 }
 
-function AssigneeSelect() {
+function AssigneeSelect({ issue }: { issue: Issue }) {
   const { data, error, isLoading } = useQuery<User[]>({
     queryKey: ["users"],
     async queryFn() {
@@ -114,16 +114,22 @@ function AssigneeSelect() {
     retry: 3,
   });
 
-  if (isLoading) return <Skeleton height="2rem" />;
+  function handleAssignIssue(userId: string) {
+    axios.patch(`/api/issues/${issue.id}`, {
+      userId: userId == "unassigned" ? null : userId,
+    });
+  }
 
+  if (isLoading) return <Skeleton height="2rem" />;
   if (error) return null;
 
   return (
-    <Select.Root>
+    <Select.Root onValueChange={handleAssignIssue} defaultValue={issue.userId || ""}>
       <Select.Trigger placeholder="Assign..." />
       <Select.Content position="popper">
         <Select.Group>
           <Select.Label>Suggestions</Select.Label>
+          <Select.Item value="unassigned">Unassigned</Select.Item>
           {data?.map((user) => (
             <Select.Item key={user.id} value={user.id}>
               {user.name}
