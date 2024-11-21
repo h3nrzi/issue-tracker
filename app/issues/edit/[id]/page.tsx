@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import getIssue from "@/lib/getIssue";
+import getIssue from "@/lib/queries/getIssue";
 import dynamic from "next/dynamic";
 import { IssueFormSkeleton } from "@/components";
 

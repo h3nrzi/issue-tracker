@@ -8,9 +8,9 @@ import { MdCancel } from "react-icons/md";
 import axios, { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { Issue, User } from "@prisma/client";
-import { useQuery } from "@tanstack/react-query";
+import { Issue } from "@prisma/client";
 import Skeleton from "react-loading-skeleton";
+import useUsers from "@/lib/hooks/useUsers";
 
 export default function IssueToolbar({ issue }: { issue: Issue }) {
   return (
@@ -104,15 +104,7 @@ function DeleteButton({ issueId }: { issueId: number }) {
 }
 
 function AssigneeSelect({ issue }: { issue: Issue }) {
-  const { data, error, isLoading } = useQuery<User[]>({
-    queryKey: ["users"],
-    async queryFn() {
-      const res = await axios.get<User[]>("/api/users");
-      return res.data;
-    },
-    staleTime: 60 * 1000, // 60s
-    retry: 3,
-  });
+  const { data, error, isLoading } = useUsers();
 
   function handleAssignIssue(userId: string) {
     axios.patch(`/api/issues/${issue.id}`, {
