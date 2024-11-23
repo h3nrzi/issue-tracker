@@ -1,9 +1,10 @@
 import IssuesTable from "./issues-table";
 import IssuesToolbar from "./issues-toolbar";
 import getIssues from "@/lib/queries/getIssues";
+import IssuesQuery from "@/types/IssuesQuery";
 
 interface Props {
-  searchParams: { status: "OPEN" | "CLOSED" | "IN_PROGRESS" };
+  searchParams: IssuesQuery;
 }
 
 export default async function IssuesPage({ searchParams }: Props) {
@@ -12,7 +13,7 @@ export default async function IssuesPage({ searchParams }: Props) {
   return (
     <>
       <IssuesToolbar />
-      <IssuesTable issues={issues} />
+      <IssuesTable issues={issues} query={searchParams} />
     </>
   );
 }
