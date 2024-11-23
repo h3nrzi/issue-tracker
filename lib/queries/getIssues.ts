@@ -3,9 +3,9 @@ import { Issue } from "@prisma/client";
 import { z } from "zod";
 import IssuesQuery from "@/types/IssuesQuery";
 
-const statusSchema = z.enum([ "OPEN", "CLOSED", "IN_PROGRESS" ]);
-const orderBySchema = z.enum([ "title", "status", "createdAt" ]);
-const orderDirectionSchema = z.enum([ "asc", "desc" ]);
+const statusSchema = z.enum(["OPEN", "CLOSED", "IN_PROGRESS"]);
+const orderBySchema = z.enum(["title", "status", "createdAt"]);
+const orderDirectionSchema = z.enum(["asc", "desc"]);
 
 async function getIssues(query: IssuesQuery): Promise<Issue[]> {
   if (query.status) {
@@ -25,11 +25,11 @@ async function getIssues(query: IssuesQuery): Promise<Issue[]> {
 
   return prisma.issue.findMany({
     where: {
-      status: query.status
+      status: query.status,
     },
     orderBy: {
-      [query.orderBy!]: query.orderDirection
-    }
+      [query.orderBy!]: query.orderDirection,
+    },
   });
 }
 

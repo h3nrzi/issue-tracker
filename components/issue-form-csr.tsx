@@ -9,4 +9,4 @@ const IssueFormCsr = dynamic(() => import("@/components/issue-form"), {
   loading: () => <IssueFormSkeleton />,
 });
 
-export default IssueFormCsr
+export default IssueFormCsr;

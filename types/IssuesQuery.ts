@@ -1,4 +1,4 @@
-import {Issue} from "@prisma/client";
+import { Issue } from "@prisma/client";
 
 export default interface IssuesQuery {
   status?: "OPEN" | "CLOSE" | "IN_PROGRESS";
