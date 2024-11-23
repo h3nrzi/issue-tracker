@@ -1,9 +1,12 @@
+"use client";
+
 import Link from "next/link";
 import { Button, Select } from "@radix-ui/themes";
 import { AiFillBug } from "react-icons/ai";
+import { useRouter } from "next/navigation";
 
 const statuses = [
-  { label: "All", value: "All" },
+  { label: "All", value: "ALL" },
   { label: "Open", value: "OPEN" },
   { label: "Closed", value: "CLOSED" },
   { label: "In Progress", value: "IN_PROGRESS" },
@@ -30,8 +33,12 @@ function NewButton() {
 }
 
 function StatusFilter() {
+  const router = useRouter();
+
   return (
-    <Select.Root>
+    <Select.Root
+      onValueChange={(status) => router.push(`/issues/list/?status=${status}`)}
+    >
       <Select.Trigger placeholder="Filter by status..." />
       <Select.Content>
         {statuses.map((s) => (
