@@ -3,6 +3,8 @@ import { CustomLink, IssueStatusBadge } from "@/components";
 import { Issue } from "@prisma/client";
 
 export default function IssuesTable({ issues }: { issues: Issue[] }) {
+  if (issues.length <= 0) return <p>No issue found! Please create an issue...</p>;
+
   return (
     <Table.Root variant="surface">
       <Table.Header>
@@ -20,9 +22,7 @@ export default function IssuesTable({ issues }: { issues: Issue[] }) {
         {issues.map((issue) => (
           <Table.Row key={issue.id}>
             <Table.Cell className="relative">
-              <CustomLink href={`/issues/${issue.id}`}>
-                {issue.title}
-              </CustomLink>
+              <CustomLink href={`/issues/${issue.id}`}>{issue.title}</CustomLink>
               <span className="md:hidden absolute bottom-1 right-1">
                 {<IssueStatusBadge status={issue.status} />}
               </span>
