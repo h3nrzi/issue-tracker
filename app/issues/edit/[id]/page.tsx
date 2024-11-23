@@ -1,12 +1,7 @@
-import { notFound } from "next/navigation";
+import {notFound} from "next/navigation";
 import getIssue from "@/lib/queries/getIssue";
-import dynamic from "next/dynamic";
-import { IssueFormSkeleton } from "@/components";
+import IssueFormCsr from "@/components/issue-form-csr";
 
-const IssueForm = dynamic(() => import("@/components/issue-form"), {
-  ssr: false,
-  loading: () => <IssueFormSkeleton />,
-});
 
 interface Props {
   params: { id: string };
@@ -16,5 +11,5 @@ export default async function IssueEditPage({ params }: Props) {
   const issue = await getIssue(+params.id);
   if (!issue) return notFound();
 
-  return <IssueForm issue={issue} />;
+  return <IssueFormCsr issue={issue} />;
 }
