@@ -20,9 +20,7 @@ export default async function IssueDetailPage({ params }: Props) {
       <div className="sm:col-span-4">
         <IssueDetails issue={issue} />
       </div>
-      <div className="sm:col-span-1">
-        {session?.user && <IssueToolbar issue={issue} />}
-      </div>
+      <div className="sm:col-span-1">{session?.user && <IssueToolbar issue={issue} />}</div>
     </div>
   );
 }

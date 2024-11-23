@@ -10,15 +10,10 @@ export async function POST(request: NextRequest) {
   const { title, description }: CreateIssueDto = await request.json();
 
   const session = await getServerSession(authOptions);
-  if (!session?.user)
-    return NextResponse.json({ errors: { server: "Unauthorized" } }, { status: 401 });
+  if (!session?.user) return NextResponse.json({ errors: { server: "Unauthorized" } }, { status: 401 });
 
   const validatedFields = await createIssueSchema.safeParseAsync({ title, description });
-  if (!validatedFields.success)
-    return NextResponse.json(
-      { errors: validatedFields.error.flatten().fieldErrors },
-      { status: 400 },
-    );
+  if (!validatedFields.success) return NextResponse.json({ errors: validatedFields.error.flatten().fieldErrors }, { status: 400 });
 
   const newIssue = await prisma.issue.create({ data: { title, description } });
   revalidatePath("/issues");

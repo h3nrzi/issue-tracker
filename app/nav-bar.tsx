@@ -66,13 +66,7 @@ function AuthStatus({ path }: { path: string }) {
       <DropdownMenu.Root>
         <DropdownMenu.Trigger>
           <div>
-            <Avatar
-              className="cursor-pointer"
-              src={session!.user!.image!}
-              fallback={session.user!.name!.at(0)!}
-              radius="full"
-              referrerPolicy="no-referrer"
-            />
+            <Avatar className="cursor-pointer" src={session!.user!.image!} fallback={session.user!.name!.at(0)!} radius="full" referrerPolicy="no-referrer" />
           </div>
         </DropdownMenu.Trigger>
         <DropdownMenu.Content>
@@ -91,10 +85,7 @@ function AuthStatus({ path }: { path: string }) {
       <Link className="my-nav-link" href="/api/auth/signin">
         Sign in
       </Link>
-      <Link
-        className={`my-nav-link ${path == "/signup" ? "!text-zinc-900" : ""}`}
-        href="/signup"
-      >
+      <Link className={`my-nav-link ${path == "/signup" ? "!text-zinc-900" : ""}`} href="/signup">
         Sign Up
       </Link>
     </div>

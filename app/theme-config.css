@@ -1,8 +1,8 @@
 .radix-themes {
-    --default-font-family: var(--font-open-sans) !important;
+  --default-font-family: var(--font-open-sans) !important;
 }
 
 .CodeMirror-scroll {
-    padding: 0 !important;
-    margin: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
 }

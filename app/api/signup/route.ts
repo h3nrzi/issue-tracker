@@ -9,21 +9,13 @@ export async function POST(request: NextRequest) {
 
   const validatedFields = signupSchema.safeParse(body);
 
-  if (!validatedFields.success)
-    return NextResponse.json(
-      { status: "fail", errors: validatedFields.error.flatten().fieldErrors },
-      { status: 400 },
-    );
+  if (!validatedFields.success) return NextResponse.json({ status: "fail", errors: validatedFields.error.flatten().fieldErrors }, { status: 400 });
 
   const user = await prisma.user.findUnique({
     where: { email: body.email },
   });
 
-  if (user)
-    return NextResponse.json(
-      { status: "fail", errors: { error: "User already exists" } },
-      { status: 400 },
-    );
+  if (user) return NextResponse.json({ status: "fail", errors: { error: "User already exists" } }, { status: 400 });
 
   const newUser = await prisma.user.create({
     data: {

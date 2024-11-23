@@ -47,21 +47,10 @@ export default function IssueForm({ issue }: { issue?: Issue }) {
     <form className="max-w-xl space-y-3" onSubmit={handleSubmit(submitHandler)}>
       {errors?.other && <ErrorMessage>{errors?.other}</ErrorMessage>}
 
-      <TextField.Root
-        placeholder="Title"
-        defaultValue={issue?.title}
-        {...register("title")}
-      />
+      <TextField.Root placeholder="Title" defaultValue={issue?.title} {...register("title")} />
       {errors?.title && <ErrorMessage>{errors.title}</ErrorMessage>}
 
-      <Controller
-        name="description"
-        control={control}
-        defaultValue={issue?.description}
-        render={({ field }) => (
-          <SimpleMDE placeholder="Description" {...field} className="p-0" />
-        )}
-      />
+      <Controller name="description" control={control} defaultValue={issue?.description} render={({ field }) => <SimpleMDE placeholder="Description" {...field} className="p-0" />} />
       {errors?.description && <ErrorMessage>{errors.description}</ErrorMessage>}
 
       <Button disabled={isSubmitting}>

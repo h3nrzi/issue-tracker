@@ -64,9 +64,7 @@ function DeleteButton({ issueId }: { issueId: number }) {
       </AlertDialog.Trigger>
       <AlertDialog.Content>
         <AlertDialog.Title>Confirm Deleting</AlertDialog.Title>
-        <AlertDialog.Description>
-          Are you sure you want to delete this issue? This action cannot be undone.
-        </AlertDialog.Description>
+        <AlertDialog.Description>Are you sure you want to delete this issue? This action cannot be undone.</AlertDialog.Description>
         <div className="flex gap-3 mt-4">
           <AlertDialog.Cancel>
             <Button color="gray" variant="soft" style={{ cursor: "pointer" }}>
@@ -75,10 +73,7 @@ function DeleteButton({ issueId }: { issueId: number }) {
             </Button>
           </AlertDialog.Cancel>
           <AlertDialog.Action>
-            <Button
-              style={{ cursor: "pointer" }}
-              onClick={() => handleDeleteIssue(issueId)}
-            >
+            <Button style={{ cursor: "pointer" }} onClick={() => handleDeleteIssue(issueId)}>
               <IoIosCheckmarkCircle />
               Delete Issue
             </Button>
@@ -91,11 +86,7 @@ function DeleteButton({ issueId }: { issueId: number }) {
           <AlertDialog.Title>Error</AlertDialog.Title>
           <AlertDialog.Description>{errors?.other}</AlertDialog.Description>
           <AlertDialog.Cancel>
-            <Button
-              color="gray"
-              variant="soft"
-              style={{ cursor: "pointer", marginTop: "2rem" }}
-            >
+            <Button color="gray" variant="soft" style={{ cursor: "pointer", marginTop: "2rem" }}>
               Ok
             </Button>
           </AlertDialog.Cancel>
