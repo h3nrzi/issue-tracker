@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { UpdateIssueDto } from "@/dto/issue.dto";
-import { updateIssueSchema } from "@/schema/issue.schema";
+import { UpdateIssueDto } from "@/app/api/issues/dto";
+import { updateIssueSchema } from "@/app/api/issues/schema";
 import prisma from "@/prisma/client";
 import { revalidatePath } from "next/cache";
 import { getServerSession } from "next-auth";
@@ -25,7 +25,7 @@ export async function PATCH(request: NextRequest, { params }: Params) {
   if (!validatedFields.success)
     return NextResponse.json(
       { errors: validatedFields.error.flatten().fieldErrors },
-      { status: 400 }
+      { status: 400 },
     );
 
   const issue = await prisma.issue.findUnique({ where: { id: +params.id } });

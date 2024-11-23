@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { signupDto, signupSchema } from "./schema";
+import { signupSchema } from "./schema";
 import prisma from "@/prisma/client";
 import bcrypt from "bcrypt";
+import { signupDto } from "@/app/api/signup/dto";
 
 export async function POST(request: NextRequest) {
   const body = (await request.json()) as signupDto;

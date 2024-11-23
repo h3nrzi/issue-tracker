@@ -3,8 +3,6 @@
 import { Button, Spinner, TextField } from "@radix-ui/themes";
 import { ErrorMessage } from "@/components/index";
 import { Controller, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { createIssueSchema } from "@/schema/issue.schema";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import axios, { AxiosError } from "axios";
@@ -25,13 +23,9 @@ interface IssueFormError {
 
 export default function IssueForm({ issue }: { issue?: Issue }) {
   const router = useRouter();
-
   const [errors, setErrors] = useState<IssueFormError | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const { register, control, handleSubmit, formState } = useForm<IssueFormData>({
-    resolver: zodResolver(createIssueSchema),
-  });
+  const { register, control, handleSubmit } = useForm<IssueFormData>();
 
   async function submitHandler(data: IssueFormData) {
     setIsSubmitting(true);
@@ -58,9 +52,6 @@ export default function IssueForm({ issue }: { issue?: Issue }) {
         defaultValue={issue?.title}
         {...register("title")}
       />
-      {formState.errors.title && (
-        <ErrorMessage>{formState.errors.title.message!}</ErrorMessage>
-      )}
       {errors?.title && <ErrorMessage>{errors.title}</ErrorMessage>}
 
       <Controller
@@ -71,9 +62,6 @@ export default function IssueForm({ issue }: { issue?: Issue }) {
           <SimpleMDE placeholder="Description" {...field} className="p-0" />
         )}
       />
-      {formState.errors.description && (
-        <ErrorMessage>{formState.errors.description.message!}</ErrorMessage>
-      )}
       {errors?.description && <ErrorMessage>{errors.description}</ErrorMessage>}
 
       <Button disabled={isSubmitting}>
