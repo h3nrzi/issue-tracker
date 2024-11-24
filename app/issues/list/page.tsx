@@ -12,8 +12,8 @@ export default async function IssuesPage({ searchParams }: Props) {
 
   return (
     <>
-      <IssuesToolbar />
-      <IssuesTable issues={issues} query={searchParams} />
+      <IssuesToolbar/>
+      <IssuesTable issues={issues}/>
     </>
   );
 }

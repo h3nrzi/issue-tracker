@@ -5,19 +5,16 @@ import { Table } from "@radix-ui/themes";
 import { CustomLink, IssueStatusBadge } from "@/components";
 import { Issue } from "@prisma/client";
 import { FaSort, FaSortDown, FaSortUp } from "react-icons/fa";
-import IssuesQuery from "@/types/IssuesQuery";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
-interface Props {
-  query: IssuesQuery;
-  issues: Issue[];
-}
 
-export default function IssuesTable({ issues, query }: Props) {
+export default function IssuesTable({ issues }: { issues: Issue[] }) {
   const router = useRouter();
   const [ sortOrderDirection, setSortOrderDirection ] = useState("asc");
+  const oldQueryString = useSearchParams();
 
-  if (issues.length <= 0) return <p>No issue found! Please create an issue...</p>;
+  if (issues.length <= 0)
+    return <p>No issue found! Please create an issue...</p>;
 
   const columns: {
     label: string;
@@ -29,16 +26,18 @@ export default function IssuesTable({ issues, query }: Props) {
     { label: "Created", value: "createdAt", className: "hidden md:table-cell" }
   ];
 
-  async function handleOrderDirection(columnValue: keyof Issue) {
-    const newSortOrderDirection = columnValue === query.orderBy && sortOrderDirection === "asc" ? "desc" : "asc";
+  async function handleClick(newOrderBy: keyof Issue) {
+    const oldOrderBy = oldQueryString.get("orderBy");
+    const newSortOrderDirection = (newOrderBy === oldOrderBy) && (sortOrderDirection === "asc") ? "desc" : "asc";
 
-    const searchParams = new URLSearchParams({
-      ...query,
-      orderBy: columnValue,
-      orderDirection: newSortOrderDirection
-    });
+    const newQueryString = new URLSearchParams();
 
-    router.push(`/issues/list?${searchParams.toString()}`);
+    if (oldQueryString.has("status"))
+      newQueryString.append("status", oldQueryString.get("status")!);
+    newQueryString.append("orderBy", newOrderBy);
+    newQueryString.append("orderDirection", newSortOrderDirection);
+
+    router.push(`/issues/list?${newQueryString}`);
 
     setSortOrderDirection(newSortOrderDirection);
   }
@@ -49,10 +48,10 @@ export default function IssuesTable({ issues, query }: Props) {
         <Table.Row>
           {columns.map((c) => (
             <Table.ColumnHeaderCell key={c.value} className={c.className}>
-              {c.value !== query.orderBy && <FaSort className="inline-block mr-2"/>}
-              {c.value === query.orderBy && sortOrderDirection === "asc" && <FaSortUp className="inline-block mr-2"/>}
-              {c.value === query.orderBy && sortOrderDirection === "desc" && <FaSortDown className="inline-block mr-2"/>}
-              <span className="cursor-pointer text-gray-600 hover:text-black" onClick={() => handleOrderDirection(c.value)}>
+              {c.value !== oldQueryString.get("orderBy") && <FaSort className="inline-block mr-2"/>}
+              {c.value === oldQueryString.get("orderBy") && sortOrderDirection === "asc" && <FaSortUp className="inline-block mr-2"/>}
+              {c.value === oldQueryString.get("orderBy") && sortOrderDirection === "desc" && <FaSortDown className="inline-block mr-2"/>}
+              <span className="cursor-pointer text-gray-600 hover:text-black" onClick={() => handleClick(c.value)}>
                 {c.label}
               </span>
             </Table.ColumnHeaderCell>
