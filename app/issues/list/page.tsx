@@ -14,13 +14,14 @@ export default async function IssuesPage({ searchParams }: Props) {
   const currentPage = (searchParams.page && +searchParams.page >= 1) ? +searchParams.page : 1;
 
   return (
-    <div className="flex flex-col h-[80vh]">
-      <div className="flex-grow">
+    <div className="flex flex-col h-[520px]">
+      <div>
         <IssuesToolbar/>
         <IssuesTable issues={data}/>
       </div>
-      <Pagination itemCount={pagination.issueCount} pageSize={pagination.pageSize} currentPage={currentPage}/>
+      <div className="mt-auto">
+        <Pagination itemCount={pagination.issueCount} pageSize={pagination.pageSize} currentPage={currentPage}/>
+      </div>
     </div>
-
   );
 }

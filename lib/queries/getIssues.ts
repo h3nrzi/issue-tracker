@@ -23,7 +23,7 @@ async function getIssues(query: IssuesQuery) {
   }
 
   const page = (query.page && +query.page >= 1) ? +query.page : 1;
-  const pageSize = 10;
+  const pageSize = 8;
   const where = { status: query.status };
 
   const issues = await prisma.issue.findMany({
