@@ -4,9 +4,9 @@ import "easymde/dist/easymde.min.css";
 import dynamic from "next/dynamic";
 import { IssueFormSkeleton } from "@/components";
 
-const IssueFormCsr = dynamic(() => import("@/components/issue-form"), {
+const IssueFormCsr = dynamic(() => import("@/components/issue/issue-form"), {
   ssr: false,
-  loading: () => <IssueFormSkeleton />,
+  loading: () => <IssueFormSkeleton/>
 });
 
 export default IssueFormCsr;

@@ -1,7 +1,7 @@
 "use client";
 
 import { Button, Spinner, TextArea, TextField } from "@radix-ui/themes";
-import { ErrorMessage } from "@/components/index";
+import { ErrorMessage } from "@/components";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -22,8 +22,8 @@ interface IssueFormError {
 
 export default function IssueForm({ issue }: { issue?: Issue }) {
   const router = useRouter();
-  const [errors, setErrors] = useState<IssueFormError | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [ errors, setErrors ] = useState<IssueFormError | null>(null);
+  const [ isSubmitting, setIsSubmitting ] = useState(false);
   const { register, handleSubmit } = useForm<IssueFormData>();
 
   async function submitHandler(data: IssueFormData) {
@@ -54,7 +54,7 @@ export default function IssueForm({ issue }: { issue?: Issue }) {
       {errors?.description && <ErrorMessage>{errors.description}</ErrorMessage>}
 
       <Button disabled={isSubmitting}>
-        {isSubmitting && <Spinner size="2" />}
+        {isSubmitting && <Spinner size="2"/>}
         {issue ? "Update Issue" : "Submit New Issue"}
       </Button>
     </form>

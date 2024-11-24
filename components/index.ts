@@ -1,6 +1,6 @@
-export { default as CustomLink } from "./custom-link";
-export { default as ErrorMessage } from "./error-message";
-export { default as IssueStatusBadge } from "./issue-status-badge";
-export { default as Skeleton } from "./skeleton";
-export { default as IssueForm } from "./issue-form";
-export { default as IssueFormSkeleton } from "./issue-form-skeleton";
+export { default as CustomLink } from "./common/custom-link";
+export { default as ErrorMessage } from "./common/error-message";
+export { default as IssueStatusBadge } from "./issue/issue-status-badge";
+export { default as Skeleton } from "./common/skeleton";
+export { default as IssueFormCsr } from "./issue/issue-form-csr";
+export { default as IssueFormSkeleton } from "./issue/issue-form-skeleton";

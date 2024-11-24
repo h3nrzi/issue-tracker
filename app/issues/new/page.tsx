@@ -1,5 +1,5 @@
-import IssueFormCsr from "@/components/issue-form-csr";
+import { IssueFormCsr } from "@/components";
 
 export default function NewIssuePage() {
-  return <IssueFormCsr />;
+  return <IssueFormCsr/>;
 }
