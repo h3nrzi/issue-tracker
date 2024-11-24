@@ -40,7 +40,7 @@ function StatusFilter() {
 
 
   function handleValueChange(status: string) {
-    newQueryString.append("status", status);
+    if (status !== "ALL") newQueryString.append("status", status);
 
     if (oldQueryString.has("orderBy"))
       newQueryString.append("orderBy", oldQueryString.get("orderBy")!);
