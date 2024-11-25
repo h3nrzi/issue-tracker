@@ -16,10 +16,10 @@ import toast, { Toaster } from "react-hot-toast";
 export default function IssueToolbar({ issue }: { issue: Issue }) {
   return (
     <div className="flex flex-col gap-2">
-      <AssigneeSelect issue={issue} />
-      <EditButton issueId={issue.id} />
-      <DeleteButton issueId={issue.id} />
-      <Toaster />
+      <AssigneeSelect issue={issue}/>
+      <EditButton issueId={issue.id}/>
+      <DeleteButton issueId={issue.id}/>
+      <Toaster/>
     </div>
   );
 }
@@ -28,7 +28,7 @@ function EditButton({ issueId }: { issueId: number }) {
   return (
     <Link href={`/issues/edit/${issueId}`}>
       <Button color="blue" style={{ width: "100%", cursor: "pointer" }}>
-        <Pencil2Icon />
+        <Pencil2Icon/>
         Edit
       </Button>
     </Link>
@@ -37,8 +37,8 @@ function EditButton({ issueId }: { issueId: number }) {
 
 function DeleteButton({ issueId }: { issueId: number }) {
   const router = useRouter();
-  const [isDeleting, setIsDeleting] = useState(false);
-  const [errors, setErrors] = useState({} as any);
+  const [ isDeleting, setIsDeleting ] = useState(false);
+  const [ errors, setErrors ] = useState({} as any);
 
   async function handleDeleteIssue(id: number) {
     setIsDeleting(true);
@@ -57,8 +57,8 @@ function DeleteButton({ issueId }: { issueId: number }) {
     <AlertDialog.Root>
       <AlertDialog.Trigger>
         <Button color="red" style={{ cursor: "pointer" }} disabled={isDeleting}>
-          {isDeleting && <Spinner />}
-          <TrashIcon />
+          {isDeleting && <Spinner/>}
+          <TrashIcon/>
           Delete
         </Button>
       </AlertDialog.Trigger>
@@ -68,13 +68,13 @@ function DeleteButton({ issueId }: { issueId: number }) {
         <div className="flex gap-3 mt-4">
           <AlertDialog.Cancel>
             <Button color="gray" variant="soft" style={{ cursor: "pointer" }}>
-              <MdCancel />
+              <MdCancel/>
               Cancel
             </Button>
           </AlertDialog.Cancel>
           <AlertDialog.Action>
             <Button style={{ cursor: "pointer" }} onClick={() => handleDeleteIssue(issueId)}>
-              <IoIosCheckmarkCircle />
+              <IoIosCheckmarkCircle/>
               Delete Issue
             </Button>
           </AlertDialog.Action>
@@ -102,7 +102,7 @@ function AssigneeSelect({ issue }: { issue: Issue }) {
   async function handleAssignIssue(userId: string) {
     try {
       await axios.patch(`/api/issues/${issue.id}`, {
-        userId: userId == "unassigned" ? null : userId,
+        userAssignedIssueId: userId == "unassigned" ? null : userId
       });
       toast.success("Saved!");
     } catch {
@@ -110,12 +110,12 @@ function AssigneeSelect({ issue }: { issue: Issue }) {
     }
   }
 
-  if (isLoading) return <Skeleton height="2rem" />;
+  if (isLoading) return <Skeleton height="2rem"/>;
   if (error) return null;
 
   return (
-    <Select.Root onValueChange={handleAssignIssue} defaultValue={issue.userId || ""}>
-      <Select.Trigger placeholder="Assign..." />
+    <Select.Root onValueChange={handleAssignIssue} defaultValue={issue.userAssignedIssueId || ""}>
+      <Select.Trigger placeholder="Assign..."/>
       <Select.Content position="popper">
         <Select.Group>
           <Select.Label>Suggestions</Select.Label>

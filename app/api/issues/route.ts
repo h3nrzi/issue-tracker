@@ -15,7 +15,14 @@ export async function POST(request: NextRequest) {
   const validatedFields = await createIssueSchema.safeParseAsync({ title, description });
   if (!validatedFields.success) return NextResponse.json({ errors: validatedFields.error.flatten().fieldErrors }, { status: 400 });
 
-  const newIssue = await prisma.issue.create({ data: { title, description } });
+  const newIssue = await prisma.issue.create({
+    data: {
+      title,
+      description,
+      // @ts-expect-error : property id does not exist on type
+      userCreatedIssueId: session?.user.id
+    }
+  });
   revalidatePath("/issues");
 
   return NextResponse.json(newIssue, { status: 201 });

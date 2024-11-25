@@ -14,19 +14,19 @@ export const authOptions: AuthOptions = {
         email: {
           label: "Email address",
           type: "email",
-          placeholder: "Enter your email address",
+          placeholder: "Enter your email address"
         },
         password: {
           label: "Password",
           type: "password",
-          placeholder: "Enter your password",
-        },
+          placeholder: "Enter your password"
+        }
       },
       async authorize(credentials, req) {
         if (!credentials?.email || !credentials?.password) return null;
 
         const user = await prisma.user.findUnique({
-          where: { email: credentials.email },
+          where: { email: credentials.email }
         });
 
         if (!user) return null;
@@ -34,15 +34,27 @@ export const authOptions: AuthOptions = {
         const isValidPassword = await bcrypt.compare(credentials.password, user.password!);
 
         return isValidPassword ? user : null;
-      },
+      }
     }),
-
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-    }),
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!
+    })
   ],
   session: { strategy: "jwt" },
+  callbacks: {
+    async session({ session, token }) {
+      if (session?.user)
+        // @ts-expect-error : property id does not exist on type
+        session.user.id = token.sub;
+      return session;
+    },
+    async jwt({ user, token }) {
+      if (user)
+        token.uid = user.id;
+      return token;
+    }
+  }
 };
 
 export const handler = NextAuth(authOptions);

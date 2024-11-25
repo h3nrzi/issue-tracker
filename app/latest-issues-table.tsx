@@ -19,7 +19,7 @@ export default async function LatestIssuesTable() {
                     <Link href={`/issues/${issue.id}`} className="hover:underline">{issue.title}</Link>
                     <IssueStatusBadge status={issue.status}/>
                   </div>
-                  {issue.userId && <Avatar size="2" src={issue.user!.image!} fallback={issue.user!.name!.at(0)!} radius="full" referrerPolicy="no-referrer"/>}
+                  {issue.userAssignedIssueId && <Avatar size="2" src={issue.userAssignedIssue!.image!} fallback={issue.userAssignedIssue!.name!.at(0)!} radius="full" referrerPolicy="no-referrer"/>}
                 </div>
               </Table.Cell>
             </Table.Row>

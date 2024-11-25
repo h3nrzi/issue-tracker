@@ -11,7 +11,7 @@ interface Params {
 }
 
 export async function PATCH(request: NextRequest, { params }: Params) {
-  const { title, description, userId } = (await request.json()) as UpdateIssueDto;
+  const { title, description, userAssignedIssueId } = (await request.json()) as UpdateIssueDto;
 
   const session = await getServerSession(authOptions);
   if (!session?.user) return NextResponse.json({ errors: { server: "Unauthorized" } }, { status: 401 });
@@ -19,7 +19,7 @@ export async function PATCH(request: NextRequest, { params }: Params) {
   const validatedFields = await updateIssueSchema.safeParseAsync({
     title,
     description,
-    userId,
+    userAssignedIssueId
   });
   if (!validatedFields.success) return NextResponse.json({ errors: validatedFields.error.flatten().fieldErrors }, { status: 400 });
 
@@ -28,7 +28,7 @@ export async function PATCH(request: NextRequest, { params }: Params) {
 
   const updatedIssue = await prisma.issue.update({
     where: { id: +params.id },
-    data: { title, description, userId },
+    data: { title, description, userAssignedIssueId }
   });
   revalidatePath("/issues");
 
