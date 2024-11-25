@@ -1,17 +1,18 @@
 "use client";
 
 import useUsers from "@/lib/hooks/useUsers";
+import Issue from "@/types/Issue";
 import { Select } from "@radix-ui/themes";
 import axios from "axios";
 import toast from "react-hot-toast";
 import Skeleton from "react-loading-skeleton";
 
-export default function AssigneeSelect({ issueId }: { issueId: number }) {
+export default function AssigneeSelect({ issue }: { issue: Issue }) {
   const { data, error, isLoading } = useUsers();
 
   async function handleAssignIssue(userId: string) {
     try {
-      await axios.patch(`/api/issues/${issueId}`, {
+      await axios.patch(`/api/issues/${issue.id}`, {
         userAssignedIssueId: userId == "unassigned" ? null : userId,
       });
       toast.success("Saved!");

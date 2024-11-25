@@ -1,17 +1,23 @@
 import IssueDetails from "@/app/issues/[id]/issue-details";
-import IssueToolbar from "@/app/issues/[id]/issue-toolbar";
 import { authOptions } from "@/auth";
+import getIssue from "@/lib/queries/getIssue";
+import Issue from "@/types/Issue";
 import { getServerSession } from "next-auth";
+import { notFound } from "next/navigation";
+import IssueToolbar from "./issue-toolbar";
 
 export default async function IssueDetailPage({ params }: { params: { id: string } }) {
   const session = await getServerSession(authOptions);
 
+  const issue = (await getIssue(+params.id)) as Issue;
+  if (!issue) return notFound();
+
   return (
     <div className="grid grid-cols-1 sm:grid-cols-5 gap-10 sm:gap-4">
       <div className="sm:col-span-4">
-        <IssueDetails issueId={+params.id} />
+        <IssueDetails issue={issue} />
       </div>
-      <div className="sm:col-span-1">{session?.user && <IssueToolbar issueId={+params.id} />}</div>
+      <div className="sm:col-span-1">{session?.user && <IssueToolbar issue={issue} />}</div>
     </div>
   );
 }

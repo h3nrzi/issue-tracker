@@ -1,17 +1,9 @@
-import { Card, Heading, Text } from "@radix-ui/themes";
 import { IssueStatusBadge } from "@/components";
+import Issue from "@/types/Issue";
+import { Card, Heading, Text } from "@radix-ui/themes";
 import ReactMarkdown from "react-markdown";
-import prisma from "@/prisma/client";
-import { notFound } from "next/navigation";
 
-export default async function IssueDetails({ issueId }: { issueId: number }) {
-  const issue = await prisma.issue.findUnique({
-    where: { id: issueId },
-    include: { userAssignedIssue: true, userCreatedIssue: true },
-  });
-
-  if (!issue) return notFound();
-
+export default async function IssueDetails({ issue }: { issue: Issue }) {
   return (
     <div>
       <Heading as="h2">{issue.title}</Heading>

@@ -1,6 +1,6 @@
 import prisma from "@/prisma/client";
 
-async function getIssues(issueId: number) {
+async function getIssue(issueId: number) {
   return prisma.issue.findUnique({
     where: {
       id: issueId
@@ -12,4 +12,4 @@ async function getIssues(issueId: number) {
   });
 }
 
-export default getIssues;
+export default getIssue;
