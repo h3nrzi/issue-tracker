@@ -1,6 +1,7 @@
 import { IssueStatusBadge } from "@/components";
 import Issue from "@/types/Issue";
-import { Card, Heading, Text } from "@radix-ui/themes";
+import { ArrowRightIcon } from "@radix-ui/react-icons";
+import { Avatar, Card, Heading, Text } from "@radix-ui/themes";
 import ReactMarkdown from "react-markdown";
 
 export default async function IssueDetails({ issue }: { issue: Issue }) {
@@ -11,6 +12,11 @@ export default async function IssueDetails({ issue }: { issue: Issue }) {
         <div className="flex items-center gap-4 my-2">
           <IssueStatusBadge status={issue.status} />
           <Text>{issue.createdAt.toDateString()}</Text>
+        </div>
+        <div className="flex items-center space-x-2">
+          <Avatar size="2" src={issue.userCreatedIssue.image!} fallback={issue.userCreatedIssue.name!.at(0)!} radius="full" referrerPolicy="no-referrer" />
+          {issue.userAssignedIssueId && <ArrowRightIcon />}
+          {issue.userAssignedIssueId && <Avatar size="2" src={issue.userAssignedIssue!.image!} fallback={issue.userAssignedIssue!.name!.at(0)!} radius="full" referrerPolicy="no-referrer" />}
         </div>
       </div>
       <Card className="prose mt-4 max-w-full">

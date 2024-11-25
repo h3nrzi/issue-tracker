@@ -4,10 +4,12 @@ import useUsers from "@/lib/hooks/useUsers";
 import Issue from "@/types/Issue";
 import { Select } from "@radix-ui/themes";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import Skeleton from "react-loading-skeleton";
 
 export default function AssigneeSelect({ issue }: { issue: Issue }) {
+  const router = useRouter();
   const { data, error, isLoading } = useUsers();
 
   async function handleAssignIssue(userId: string) {
@@ -15,6 +17,7 @@ export default function AssigneeSelect({ issue }: { issue: Issue }) {
       await axios.patch(`/api/issues/${issue.id}`, {
         userAssignedIssueId: userId == "unassigned" ? null : userId,
       });
+      router.refresh();
       toast.success("Saved!");
     } catch {
       toast.error("Changes could not be saved!");
