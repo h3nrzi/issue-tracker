@@ -8,27 +8,30 @@ datasource db {
 }
 
 model Issue {
-  id          Int      @id @default(autoincrement())
-  userId      String?  @map("userId")
-  user        User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  title       String
-  description String
-  status      String   @default("OPEN")
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id                  Int      @id @default(autoincrement())
+  userCreatedIssueId  String   @map("userCreatedIssueId")
+  userAssignedIssueId String?  @map("userAssignedIssueId")
+  userCreatedIssue    User     @relation(fields: [userCreatedIssueId], references: [id], onDelete: Cascade, name: "userCreatedIssue")
+  userAssignedIssue   User?    @relation(fields: [userAssignedIssueId], references: [id], onDelete: Cascade, name: "UserAssignedIssue")
+  title               String
+  description         String
+  status              String   @default("OPEN")
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  password      String?
-  image         String?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  accounts      Account[]
-  Issues        Issue[]
+  id             String    @id @default(cuid())
+  name           String?
+  email          String?   @unique
+  emailVerified  DateTime?
+  password       String?
+  image          String?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  accounts       Account[]
+  createdIssues  Issue[]   @relation("userCreatedIssue")
+  assignedIssues Issue[]   @relation("UserAssignedIssue")
 }
 
 model Account {
