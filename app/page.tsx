@@ -1,13 +1,12 @@
-import { Pagination } from "@/components";
+import LatestIssuesTable from "@/app/latest-issues-table";
 
-interface Props {
-  searchParams: { page?: string };
-}
 
-export default function HomePage({ searchParams }: Props) {
+export default function HomePage() {
+
+
   return (
     <div>
-      <Pagination itemCount={50} pageSize={10} currentPage={+searchParams.page! || 1}/>
+      <LatestIssuesTable/>
     </div>
   );
 }
