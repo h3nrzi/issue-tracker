@@ -22,18 +22,25 @@ interface IssueFormError {
 
 export default function IssueForm({ issue }: { issue?: Issue }) {
   const router = useRouter();
-  const [ errors, setErrors ] = useState<IssueFormError | null>(null);
-  const [ isSubmitting, setIsSubmitting ] = useState(false);
+  const [errors, setErrors] = useState<IssueFormError | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { register, handleSubmit } = useForm<IssueFormData>();
 
   async function submitHandler(data: IssueFormData) {
     setIsSubmitting(true);
 
     try {
-      if (issue) await axios.patch(`/api/issues/${issue.id}`, data);
-      else await axios.post("/api/issues", data);
+      let issueId: number;
 
-      router.push("/issues/list");
+      if (issue) {
+        const res = await axios.patch(`/api/issues/${issue.id}`, data);
+        issueId = res.data.id;
+      } else {
+        const res = await axios.post("/api/issues", data);
+        issueId = res.data.id;
+      }
+
+      router.push(`/issues/${issueId}`);
       router.refresh();
     } catch (err) {
       if (err instanceof AxiosError) setErrors(err.response?.data.errors);
@@ -54,7 +61,7 @@ export default function IssueForm({ issue }: { issue?: Issue }) {
       {errors?.description && <ErrorMessage>{errors.description}</ErrorMessage>}
 
       <Button disabled={isSubmitting}>
-        {isSubmitting && <Spinner size="2"/>}
+        {isSubmitting && <Spinner size="2" />}
         {issue ? "Update Issue" : "Submit New Issue"}
       </Button>
     </form>
