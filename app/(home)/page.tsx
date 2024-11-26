@@ -2,6 +2,7 @@ import statusCount from "@/lib/queries/status-count";
 import IssuesChart from "./issues-chart";
 import IssuesSummary from "./issues-summary";
 import LatestIssuesTable from "./latest-issues-table";
+import { Metadata } from "next";
 
 export default async function HomePage() {
   const { open, closed, inProgress } = await statusCount();
@@ -18,3 +19,8 @@ export default async function HomePage() {
     </div>
   );
 }
+
+export const metadata: Metadata = {
+  title: "Issue Tracker - Dashboard",
+  description: "View a summary of product issues",
+};

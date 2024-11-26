@@ -21,3 +21,12 @@ export default async function IssueDetailPage({ params }: { params: { id: string
     </div>
   );
 }
+
+export async function generateMetadata({ params }: { params: { id: string } }) {
+  const issue = await getIssue(+params.id);
+
+  return {
+    title: issue?.title,
+    description: `Details of issue ${issue?.id}`,
+  };
+}

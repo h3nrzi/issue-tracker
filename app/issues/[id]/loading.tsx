@@ -1,5 +1,6 @@
 import { Card } from "@radix-ui/themes";
 import { Skeleton } from "@/components";
+import { Metadata } from "next";
 
 export default function LoadingIssueDetailPage() {
   return (
