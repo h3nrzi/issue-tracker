@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
       userCreatedIssueId: session?.user.id
     }
   });
-  revalidatePath("/issues");
+  revalidatePath("/", "layout");
 
   return NextResponse.json(newIssue, { status: 201 });
 }

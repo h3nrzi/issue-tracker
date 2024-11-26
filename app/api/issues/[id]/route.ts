@@ -30,7 +30,7 @@ export async function PATCH(request: NextRequest, { params }: Params) {
     where: { id: +params.id },
     data: { title, description, userAssignedIssueId }
   });
-  revalidatePath("/issues");
+  revalidatePath("/", "layout");
 
   return NextResponse.json(updatedIssue, { status: 200 });
 }
@@ -43,7 +43,7 @@ export async function DELETE(request: NextRequest, { params }: Params) {
   if (!issue) return NextResponse.json({ errors: { other: "Invalid issue" } }, { status: 404 });
 
   await prisma.issue.delete({ where: { id: +params.id } });
-  revalidatePath("/issues");
+  revalidatePath("/", "layout");
 
   return NextResponse.json({});
 }

@@ -3,6 +3,7 @@ import { signupSchema } from "./schema";
 import prisma from "@/prisma/client";
 import bcrypt from "bcrypt";
 import { signupDto } from "@/app/api/signup/dto";
+import { revalidatePath } from "next/cache";
 
 export async function POST(request: NextRequest) {
   const body = (await request.json()) as signupDto;
@@ -26,6 +27,7 @@ export async function POST(request: NextRequest) {
   });
 
   newUser.password = null;
+  revalidatePath("/", "layout");
 
   return NextResponse.json({ data: newUser }, { status: 201 });
 }
