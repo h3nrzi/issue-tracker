@@ -8,7 +8,7 @@ interface Props {
   closed: number;
 }
 
-export default function IssueSummary({ closed, inProgress, open }: Props) {
+export default function IssuesSummary({ closed, inProgress, open }: Props) {
   const containers: { label: string; value: number; status: Status }[] = [
     { label: "Open Issues", value: open, status: "OPEN" },
     { label: "In-progress Issues", value: inProgress, status: "IN_PROGRESS" },
