@@ -49,11 +49,11 @@ export const authOptions: AuthOptions = {
         session.user.id = token.sub;
       return session;
     },
-    async jwt({ user, token }) {
-      if (user)
-        token.uid = user.id;
-      return token;
-    }
+    // async jwt({ user, token }) {
+    //   if (user)
+    //     token.uid = user.id;
+    //   return token;
+    // }
   }
 };
 
