@@ -1,33 +1,22 @@
-import IssuesTable from "./issues-table";
-import IssuesToolbar from "./issues-toolbar";
-import getIssues from "@/lib/queries/get-issues";
-import IssuesQuery from "@/types/IssuesQuery";
 import { Pagination } from "@/components";
-import { Metadata } from "next";
+import getIssues from "@/lib/queries/get-issues";
+import ClientIssuesSection from "./client-issues-section";
+import Issue from "@/types/Issue";
 
 interface Props {
-  searchParams: IssuesQuery;
+  searchParams: { page?: string };
 }
 
 export default async function IssuesPage({ searchParams }: Props) {
   const { data, pagination } = await getIssues(searchParams);
-
   const currentPage = searchParams.page && +searchParams.page >= 1 ? +searchParams.page : 1;
 
   return (
     <div className="flex flex-col h-[520px]">
-      <div>
-        <IssuesToolbar />
-        <IssuesTable issues={data} />
-      </div>
+      <ClientIssuesSection issues={data as Issue[]} />
       <div className="mt-auto">
         <Pagination itemCount={pagination.issueCount} pageSize={pagination.pageSize} currentPage={currentPage} />
       </div>
     </div>
   );
 }
-
-export const metadata: Metadata = {
-  title: "Issue Tracker - Issue List",
-  description: "View all project issues",
-};
