@@ -1,7 +1,7 @@
 import { Pagination } from "@/components";
 import getIssues from "@/lib/queries/get-issues";
-import ClientIssuesSection from "./client-issues-section";
-import Issue from "@/types/Issue";
+import IssuesTable from "./issues-table";
+import IssuesToolbar from "./issues-toolbar";
 
 interface Props {
   searchParams: { page?: string };
@@ -13,7 +13,8 @@ export default async function IssuesPage({ searchParams }: Props) {
 
   return (
     <div className="flex flex-col h-[520px]">
-      <ClientIssuesSection issues={data as Issue[]} />
+      <IssuesToolbar />
+      <IssuesTable issues={data} />
       <div className="mt-auto">
         <Pagination itemCount={pagination.issueCount} pageSize={pagination.pageSize} currentPage={currentPage} />
       </div>
