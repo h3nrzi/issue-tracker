@@ -1,15 +1,12 @@
 import prisma from "@/prisma/client";
+import { cache } from "react";
 
-async function getIssue(issueId: number) {
+
+const getIssue = cache((issueId: number) => {
   return prisma.issue.findUnique({
-    where: {
-      id: issueId
-    },
-    include: {
-      userAssignedIssue: true,
-      userCreatedIssue: true
-    }
-  });
-}
+    where: { id: issueId },
+    include: { userAssignedIssue: true, userCreatedIssue: true }
+  })
+})
 
 export default getIssue;
