@@ -1,9 +1,12 @@
-import LatestIssuesTable from "@/app/latest-issues-table";
+import statusCount from "@/lib/queries/status-count";
+import IssueSummary from "./issue-summary";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const { open, closed, inProgress } = await statusCount();
+
   return (
     <>
-      <LatestIssuesTable />
+      <IssueSummary open={open} inProgress={inProgress} closed={closed} />
     </>
   );
 }
