@@ -1,6 +1,6 @@
 import IssueDetails from "@/app/issues/[id]/issue-details";
 import { authOptions } from "@/auth";
-import getIssue from "@/lib/queries/getIssue";
+import getIssue from "@/lib/queries/get-issue";
 import Issue from "@/types/Issue";
 import { getServerSession } from "next-auth";
 import { notFound } from "next/navigation";

@@ -1,6 +1,6 @@
 import IssuesTable from "./issues-table";
 import IssuesToolbar from "./issues-toolbar";
-import getIssues from "@/lib/queries/getIssues";
+import getIssues from "@/lib/queries/get-issues";
 import IssuesQuery from "@/types/IssuesQuery";
 import { Pagination } from "@/components";
 import { Metadata } from "next";
