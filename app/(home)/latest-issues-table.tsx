@@ -8,7 +8,7 @@ export default async function LatestIssuesTable() {
 
   return (
     <>
-      <Heading align="center" mb="2">
+      <Heading align="center" mb="4">
         Latest Issues
       </Heading>
       <Table.Root variant="surface">

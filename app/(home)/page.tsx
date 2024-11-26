@@ -9,7 +9,7 @@ export default async function HomePage() {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-[7rem] md:gap-0">
-      <div className="flex flex-col items-center justify-between gap-10 md:gap-0">
+      <div className="flex flex-col items-center justify-between gap-10">
         <IssuesSummary open={open} closed={closed} inProgress={inProgress} />
         <IssuesChart open={open} closed={closed} inProgress={inProgress} />
       </div>
