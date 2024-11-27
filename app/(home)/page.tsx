@@ -23,4 +23,19 @@ export default async function HomePage() {
 export const metadata: Metadata = {
   title: "Issue Tracker - Dashboard",
   description: "View a summary of product issues",
+  openGraph: {
+    title: "Issue Tracker",
+    description: "Tracking your project issues and resolve them by your teamworks",
+    url: "https://issue-tracker5432.netlify.app",
+    siteName: "Issue Tracker",
+    type: "website",
+    images: [
+      {
+        url: "https://res.cloudinary.com/dk1j8lhuv/image/upload/v1732715915/issue-tracker/euuiv7dhvzqqnu20127n.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Issue Tracker Overview",
+      },
+    ],
+  },
 };
